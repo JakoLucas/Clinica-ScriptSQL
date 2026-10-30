@@ -10,7 +10,7 @@ GO
 INSERT INTO Provincias (NombreProvincia) 
 VALUES
 ('Buenos Aires'),
-('Ciudad Autónoma de Buenos Aires'), 
+('CABA'), 
 ('Córdoba'), 
 ('Santa Fe'), 
 ('Mendoza'), 
