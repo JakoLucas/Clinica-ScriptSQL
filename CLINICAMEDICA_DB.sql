@@ -352,9 +352,6 @@ GO
 ALTER TABLE [dbo].[Planes]  WITH CHECK ADD FOREIGN KEY([IDObraSocial])
 REFERENCES [dbo].[ObraSociales] ([IDObraSocial])
 GO
-ALTER TABLE [dbo].[Turnos]  WITH CHECK ADD FOREIGN KEY([IDClinica])
-REFERENCES [dbo].[Clinicas] ([IDClinica])
-GO
 ALTER TABLE [dbo].[Turnos]  WITH CHECK ADD FOREIGN KEY([IDMedico])
 REFERENCES [dbo].[Medicos] ([IDMedico])
 GO
