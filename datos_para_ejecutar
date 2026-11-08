@@ -3,6 +3,33 @@ USE CLINICAMEDICA_DB
 GO
 ---ORDEN PARA CARGAR LOS DATOS
 -------AuditoriaTurno  pendiente de carga, La podemos cargar con las pruebas que hagamos a medida que vamos probando los triggers y sp
+/*
+select * from Clinicas  ----cargada, arranca el id en 1
+go
+select * from Especialidades ---cargada, arranca el id en 1
+go
+select * from HistorialMedico  ----cargada, arranca el id en 2
+go
+select * from HorarioMedico -----cargada, arranca el id en 4
+go 
+select * from Localidades  ---cargada, id comienza en 1
+go
+select * from Medicos  --cargada, id comienza en 2
+go
+select * from ObraSociales ---cargada, id arranca en 1
+go
+select * from Pacientes  ---cargada, id arranca en 1
+go
+select * from Planes  --- cargada, id arranca en 1
+go
+select * from Provincias---cargada, id arranca en 1
+go
+select * from Roles ---cargada, id arranca en 1
+go
+select * from Turnos---cargada, id arranca en 3
+go
+select * from Usuarios --cargada, id arranca en 2
+*/
 
 
 insert into ObraSociales( NombreObraSocial)
