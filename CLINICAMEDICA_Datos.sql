@@ -29,7 +29,7 @@ VALUES
     ('Endocrinología');
 
 -- OBRAS SOCIALES
-INSERT INTO ObrasSociales (NombreObraSocial)
+INSERT INTO ObraSociales (NombreObraSocial)
 VALUES
     ('OSPEY'),
     ('OSDE'),
