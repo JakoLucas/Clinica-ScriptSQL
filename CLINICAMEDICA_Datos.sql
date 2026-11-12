@@ -29,7 +29,7 @@ VALUES
     ('Endocrinología');
 
 -- OBRAS SOCIALES
-INSERT INTO ObrasSociales (NombreObraSocial)
+INSERT INTO ObraSociales (NombreObraSocial)
 VALUES
     ('OSPEY'),
     ('OSDE'),
@@ -40,6 +40,7 @@ VALUES
 -- PLANES
 -- [Comentario Gabriela] PENDIENTE: evaluar agregar más de un plan por Obra Social
 -- para contar con mayor variedad de datos en las consultas, cargué uno como ejemplo.
+---[COMENTARIO DE ZULMA] recomiendo que carguemos los datos que propuse para las tablas obrasociales y planes
 
 INSERT INTO Planes (TipoPlan, IdObraSocial, Precio)
 VALUES
