@@ -114,7 +114,7 @@ VALUES
     ('Gimenez', 'Valeria', '11234568', 'valeria.gimenez@email.com', '888888888', '1990-11-25', 1);
 
 --MEDICOS
-INSERT INTO Medicos (IDEspecialidad, Nombre, Apellido, Matricula, Email, Telefono, FechaAlta, Estado)
+INSERT INTO Medicos (IDEspecialidad, Nombre, Apellido, Matricula, Email, Telefono, FechaAlta, Estado,IDClinica)
 VALUES
     (1, 'Juan', 'Perez', '12345', 'juan.perez@email.com', '111111111', '2020-01-01', 1),
     (2, 'Maria', 'Gomez', '23456', 'maria.gomez@email.com', '222222222', '2020-01-01', 1),
