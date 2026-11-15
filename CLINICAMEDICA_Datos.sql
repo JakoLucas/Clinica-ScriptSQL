@@ -114,36 +114,36 @@ VALUES
     ('Gimenez', 'Valeria', '11234568', 'valeria.gimenez@email.com', '888888888', '1990-11-25', 1);
 
 --MEDICOS
-INSERT INTO Medicos (IDEspecialidad, Nombre, Apellido, Matricula, Email, Telefono, FechaAlta, Estado,IDClinica)
+INSERT INTO Medicos (IDEspecialidad, Nombre, Apellido, Matricula, Email, Telefono, FechaAlta, Estado, IDClinica)
 VALUES
-    (1, 'Juan', 'Perez', '12345', 'juan.perez@email.com', '111111111', '2020-01-01', 1),
-    (2, 'Maria', 'Gomez', '23456', 'maria.gomez@email.com', '222222222', '2020-01-01', 1),
-    (3, 'Carlos', 'Lopez', '34567', 'carlos.lopez@email.com', '333333333', '2020-01-01', 1),
-    (4, 'Laura', 'Martinez', '45678', 'laura.martinez@email.com', '444444444', '2020-01-01', 1),
-    (5, 'Diego', 'Rodriguez', '56789', 'diego.rodriguez@email.com', '555555555', '2020-01-01', 1),
-    (6, 'Ana', 'Fernandez', '67890', 'ana.fernandez@email.com', '666666666', '2020-01-01', 1),
-    (2, 'Pedro', 'Sanchez', '78901', 'pedro.sanchez@email.com', '777777777', '2020-01-01', 1),
-    (3, 'Lucia', 'Diaz', '89012', 'lucia.diaz@email.com', '888888888', '2020-01-01', 1),
-    (6, 'Jorge', 'Torres', '90123', 'jorge.torres@email.com', '999999999', '2020-01-01', 1),
-    (5, 'Sofia', 'Ramirez', '01234', 'sofia.ramirez@email.com', '000000000', '2020-01-01', 1),
-    (1, 'Tomas', 'Castro', '12346', 'tomas.castro@email.com', '111111111', '2020-01-01', 1),
-    (2, 'Andrea', 'Vergara', '23457', 'andrea.vergara@email.com', '222222222', '2020-01-01', 1),
-    (3, 'Martin', 'Acosta', '34568', 'martin.acosta@email.com', '333333333', '2020-01-01', 1),
-    (6, 'Carla', 'Rojas', '45679', 'carla.rojas@email.com', '444444444', '2020-01-01', 1),
-    (5, 'Federico', 'Molina', '56780', 'federico.molina@email.com', '555555555', '2020-01-01', 1),
-    (1, 'Julieta', 'Herrera', '67891', 'julieta.herrera@email.com', '666666666', '2020-01-01', 1),
-    (7, 'Emiliano', 'Gimenez', '78902', 'emiliano.gimenez@email.com', '777777777', '2020-01-01', 1),
-    (3, 'Valentin', 'Orellana', '89013', 'valentin.orellana@email.com', '888888888', '2020-01-01', 1),
-    (4, 'Camila', 'Vega', '90124', 'camila.vega@email.com', '999999999', '2020-01-01', 0),
-    (5, 'Agustin', 'Alvarez', '01235', 'agustin.alvarez@email.com', '000000000', '2020-01-01', 1),
-    (1, 'Luciano', 'Mena', '12347', 'luciano.mena@email.com', '111111111', '2020-01-01', 1),
-    (2, 'Mariana', 'Cabrera', '23458', 'mariana.cabrera@email.com', '222222222', '2020-01-01', 1),
-    (7, 'Nicolas', 'Ramos', '34569', 'nicolas.ramos@email.com', '333333333', '2020-01-01', 0),
-    (4, 'Florencia', 'Sosa', '45670', 'florencia.sosa@email.com', '444444444', '2020-01-01', 0),
-    (5, 'Gonzalo', 'Mendez', '56781', 'gonzalo.mendez@email.com', '555555555', '2020-01-01', 1),
-    (1, 'Jorge', 'Pidal', '67892', 'jorge.pidal@email.com', '666666666', '2020-01-01', 1),
-    (2, 'Ramon', 'Carreras', '78903', 'ramon.carreras@email.com', '777777777', '2020-01-01', 1),
-    (3, 'Julian', 'Rolon', '89014', 'julian.rolon@email.com', '888888888', '2020-01-01', 0);
+    (1, 'Juan', 'Perez', '12345', 'juan.perez@email.com', '111111111', '2020-01-01', 1, 1),
+    (2, 'Maria', 'Gomez', '23456', 'maria.gomez@email.com', '222222222', '2020-01-01', 1, 2),
+    (3, 'Carlos', 'Lopez', '34567', 'carlos.lopez@email.com', '333333333', '2020-01-01', 1, 3),
+    (4, 'Laura', 'Martinez', '45678', 'laura.martinez@email.com', '444444444', '2020-01-01', 1, 4),
+    (5, 'Diego', 'Rodriguez', '56789', 'diego.rodriguez@email.com', '555555555', '2020-01-01', 1, 5),
+    (6, 'Ana', 'Fernandez', '67890', 'ana.fernandez@email.com', '666666666', '2020-01-01', 1, 6),
+    (2, 'Pedro', 'Sanchez', '78901', 'pedro.sanchez@email.com', '777777777', '2020-01-01', 1, 7),
+    (3, 'Lucia', 'Diaz', '89012', 'lucia.diaz@email.com', '888888888', '2020-01-01', 1, 8),
+    (6, 'Jorge', 'Torres', '90123', 'jorge.torres@email.com', '999999999', '2020-01-01', 1, 1),
+    (5, 'Sofia', 'Ramirez', '01234', 'sofia.ramirez@email.com', '000000000', '2020-01-01', 1, 2),
+    (1, 'Tomas', 'Castro', '12346', 'tomas.castro@email.com', '111111111', '2020-01-01', 1, 3),
+    (2, 'Andrea', 'Vergara', '23457', 'andrea.vergara@email.com', '222222222', '2020-01-01', 1, 4),
+    (3, 'Martin', 'Acosta', '34568', 'martin.acosta@email.com', '333333333', '2020-01-01', 1, 5),
+    (6, 'Carla', 'Rojas', '45679', 'carla.rojas@email.com', '444444444', '2020-01-01', 1, 6),
+    (5, 'Federico', 'Molina', '56780', 'federico.molina@email.com', '555555555', '2020-01-01', 1, 7),
+    (1, 'Julieta', 'Herrera', '67891', 'julieta.herrera@email.com', '666666666', '2020-01-01', 1, 8),
+    (7, 'Emiliano', 'Gimenez', '78902', 'emiliano.gimenez@email.com', '777777777', '2020-01-01', 1, 1),
+    (3, 'Valentin', 'Orellana', '89013', 'valentin.orellana@email.com', '888888888', '2020-01-01', 1, 2),
+    (4, 'Camila', 'Vega', '90124', 'camila.vega@email.com', '999999999', '2020-01-01', 0, 3),
+    (5, 'Agustin', 'Alvarez', '01235', 'agustin.alvarez@email.com', '000000000', '2020-01-01', 1, 4),
+    (1, 'Luciano', 'Mena', '12347', 'luciano.mena@email.com', '111111111', '2020-01-01', 1, 5),
+    (2, 'Mariana', 'Cabrera', '23458', 'mariana.cabrera@email.com', '222222222', '2020-01-01', 1, 6),
+    (7, 'Nicolas', 'Ramos', '34569', 'nicolas.ramos@email.com', '333333333', '2020-01-01', 0, 7),
+    (4, 'Florencia', 'Sosa', '45670', 'florencia.sosa@email.com', '444444444', '2020-01-01', 0, 8),
+    (5, 'Gonzalo', 'Mendez', '56781', 'gonzalo.mendez@email.com', '555555555', '2020-01-01', 1, 1),
+    (1, 'Jorge', 'Pidal', '67892', 'jorge.pidal@email.com', '666666666', '2020-01-01', 1, 2),
+    (2, 'Ramon', 'Carreras', '78903', 'ramon.carreras@email.com', '777777777', '2020-01-01', 1, 3),
+    (3, 'Julian', 'Rolon', '89014', 'julian.rolon@email.com', '888888888', '2020-01-01', 0, 4);
 
 --CLINICAS
 INSERT INTO Clinicas (NombreClinica, IDLocalidad, Direccion, Telefono, EmailClinica)
@@ -165,35 +165,35 @@ VALUES
 -- o días habituales de atención. Entiendo que son horarios concretos de turno.
 -- Revisar también el criterio utilizado en DuracionMin si es siempre el mismo o varia según turno o medico, por ejemplo.
 
-INSERT INTO HorarioMedico (IDMedico, IDClinica, DiaTurno, HorarioInicio, HorarioFin, DuracionMin)
+INSERT INTO HorarioMedico (IDMedico, IDClinica, DiaSemana, HorarioInicio, HorarioFin, DuracionMin)
 VALUES
 
-    (1, 1, '2026-10-05', '2026-10-05 08:00', '2026-10-05 12:00', 30),
-    (2, 2, '2026-10-08', '2026-10-08 14:00', '2026-10-08 18:00', 30),
-    (3, 3, '2026-10-14', '2026-10-14 09:00', '2026-10-14 13:00', 30),
-    (4, 4, '2026-10-20', '2026-10-20 08:00', '2026-10-20 12:00', 30),
-    (5, 5, '2026-10-27', '2026-10-27 15:00', '2026-10-27 19:00', 30),
-    (1, 1, '2026-11-02', '2026-11-02 08:00', '2026-11-02 12:00', 30),
-    (6, 6, '2026-11-05', '2026-11-05 10:00', '2026-11-05 14:00', 30),
-    (7, 7, '2026-11-10', '2026-11-10 14:00', '2026-11-10 18:00', 30),
-    (8, 8, '2026-11-16', '2026-11-16 08:30', '2026-11-16 12:30', 30),
-    (2, 2, '2026-11-25', '2026-11-25 14:00', '2026-11-25 18:00', 30),
-    (3, 3, '2026-12-02', '2026-12-02 09:00', '2026-12-02 13:00', 30),
-    (4, 4, '2026-12-07', '2026-12-07 08:00', '2026-12-07 12:00', 30),
-    (5, 5, '2026-12-11', '2026-12-11 15:00', '2026-12-11 19:00', 30),
-    (6, 6, '2026-12-16', '2026-12-16 10:00', '2026-12-16 14:00', 30),
-    (7, 7, '2026-12-21', '2026-12-21 14:00', '2026-12-21 18:00', 30),
-    (3, 3, '2026-10-12', '2026-10-12 09:00', '2026-10-12 13:00', 30),
-    (1, 1, '2026-09-01', '2026-09-01 08:00', '2026-09-01 12:00', 30),
-    (6, 6, '2026-09-03', '2026-09-03 10:00', '2026-09-03 14:00', 30),
-    (7, 7, '2026-09-08', '2026-09-08 14:00', '2026-09-08 18:00', 30),
-    (8, 8, '2026-09-10', '2026-09-10 08:30', '2026-09-10 12:30', 30),
-    (2, 2, '2026-09-15', '2026-09-15 14:00', '2026-09-15 18:00', 30),
-    (3, 3, '2026-09-17', '2026-09-17 09:00', '2026-09-17 13:00', 30),
-    (4, 4, '2026-09-22', '2026-09-22 08:00', '2026-09-22 12:00', 30),
-    (5, 5, '2026-09-24', '2026-09-24 15:00', '2026-09-24 19:00', 30),
-    (6, 6, '2026-09-29', '2026-09-29 10:00', '2026-09-29 14:00', 30),
-    (7, 7, '2026-10-01', '2026-10-01 14:00', '2026-10-01 18:00', 30);
+    (1, 1, 'Lunes', '2026-10-05 08:00', '2026-10-05 12:00', 30),
+    (2, 2, 'Martes', '2026-10-08 14:00', '2026-10-08 18:00', 30),
+    (3, 3, 'Miercoles', '2026-10-14 09:00', '2026-10-14 13:00', 30),
+    (4, 4, 'Jueves', '2026-10-20 08:00', '2026-10-20 12:00', 30),
+    (5, 5, 'Viernes', '2026-10-27 15:00', '2026-10-27 19:00', 30),
+    (1, 1, 'Viernes', '2026-11-02 08:00', '2026-11-02 12:00', 30),
+    (6, 6, 'Viernes', '2026-11-05 10:00', '2026-11-05 14:00', 30),
+    (7, 7, 'Jueves', '2026-11-10 14:00', '2026-11-10 18:00', 30),
+    (8, 8, 'Miercoles', '2026-11-16 08:30', '2026-11-16 12:30', 30),
+    (2, 2, 'Miercoles', '2026-11-25 14:00', '2026-11-25 18:00', 30),
+    (3, 3, 'Martes', '2026-12-02 09:00', '2026-12-02 13:00', 30),
+    (4, 4, 'Martes', '2026-12-07 08:00', '2026-12-07 12:00', 30),
+    (5, 5, 'Martes', '2026-12-11 15:00', '2026-12-11 19:00', 30),
+    (6, 6, 'Lunes', '2026-12-16 10:00', '2026-12-16 14:00', 30),
+    (7, 7, 'Lunes', '2026-12-21 14:00', '2026-12-21 18:00', 30),
+    (3, 3, 'Lunes', '2026-10-12 09:00', '2026-10-12 13:00', 30),
+    (1, 1, 'Jueves', '2026-09-01 08:00', '2026-09-01 12:00', 30),
+    (6, 6, 'Jueves', '2026-09-03 10:00', '2026-09-03 14:00', 30),
+    (7, 7, 'Viernes', '2026-09-08 14:00', '2026-09-08 18:00', 30),
+    (8, 8, 'Viernes', '2026-09-10 08:30', '2026-09-10 12:30', 30),
+    (2, 2, 'Lunes', '2026-09-15 14:00', '2026-09-15 18:00', 30),
+    (3, 3, 'Viernes', '2026-09-17 09:00', '2026-09-17 13:00', 30),
+    (4, 4, 'Martes', '2026-09-22 08:00', '2026-09-22 12:00', 30),
+    (5, 5, 'Martes', '2026-09-24 15:00', '2026-09-24 19:00', 30),
+    (6, 6, 'Miercoles', '2026-09-29 10:00', '2026-09-29 14:00', 30),
+    (7, 7, 'Miercoles', '2026-10-01 14:00', '2026-10-01 18:00', 30);
 
 -- TURNOS
 -- [Comentario Gabriela] Criterio utilizado:
