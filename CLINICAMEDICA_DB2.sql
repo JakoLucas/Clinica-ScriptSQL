@@ -178,8 +178,8 @@ CREATE TABLE [dbo].[HorarioMedico](
 	[IDMedico] [smallint] NOT NULL,
 	[IDClinica] [smallint] NOT NULL,
 	[DiaSemana] [varchar](10) NOT NULL,
-	[HorarioInicio] [datetime] NULL,
-	[HorarioFin] [datetime] NULL,
+	[HorarioInicio] [time](0) NULL,
+	[HorarioFin] [time](0) NULL,
 	[DuracionMin] [smallint] NULL,
 PRIMARY KEY CLUSTERED 
 (
