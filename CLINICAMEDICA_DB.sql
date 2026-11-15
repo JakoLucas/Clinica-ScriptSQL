@@ -1,13 +1,24 @@
-﻿﻿USE [master]
+USE [master]
 GO
-/****** Objeto: Database [CLINICAMEDICA_DB] Fecha de script: 25/10/2026 02:52:43 ******/
+
+IF DB_ID('CLINICAMEDICA_DB') IS NOT NULL
+BEGIN
+    ALTER DATABASE [CLINICAMEDICA_DB] SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+    DROP DATABASE [CLINICAMEDICA_DB];
+END
+GO
+---- Objeto: Database [CLINICAMEDICA_DB] Fecha de script: 25/10/2026 02:52:43 ******/
 CREATE DATABASE [CLINICAMEDICA_DB]
- CONTAINMENT = NONE
- ON  PRIMARY 
-( NAME = N'CLINICAMEDICA_DB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.SQLEXPRESS\MSSQL\DATA\CLINICAMEDICA_DB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
- LOG ON 
-( NAME = N'CLINICAMEDICA_DB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.SQLEXPRESS\MSSQL\DATA\CLINICAMEDICA_DB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
- WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+-- Comenté la configuración original de las rutas físicas
+-- para poder ejecutar la base en el entorno Docker.
+-- Revisar con el equipo antes de eliminar definitivamente.
+
+---CONTAINMENT = NONE
+---ON  PRIMARY 
+---( NAME = N'CLINICAMEDICA_DB', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.SQLEXPRESS\MSSQL\DATA\CLINICAMEDICA_DB.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+---LOG ON 
+---( NAME = N'CLINICAMEDICA_DB_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL17.SQLEXPRESS\MSSQL\DATA\CLINICAMEDICA_DB_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+--WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
 GO
 ALTER DATABASE [CLINICAMEDICA_DB] SET COMPATIBILITY_LEVEL = 170
 GO
@@ -15,6 +26,7 @@ IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
 EXEC [CLINICAMEDICA_DB].[dbo].[sp_fulltext_database] @action = 'enable'
 end
+GO
 ALTER DATABASE [CLINICAMEDICA_DB] SET ANSI_NULL_DEFAULT OFF 
 GO
 ALTER DATABASE [CLINICAMEDICA_DB] SET ANSI_NULLS OFF 
@@ -79,8 +91,8 @@ ALTER DATABASE [CLINICAMEDICA_DB] SET ACCELERATED_DATABASE_RECOVERY = OFF
 GO
 ALTER DATABASE [CLINICAMEDICA_DB] SET QUERY_STORE = ON
 GO
-ALTER DATABASE [CLINICAMEDICA_DB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
-GO
+--ALTER DATABASE [CLINICAMEDICA_DB] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+--GO
 USE [CLINICAMEDICA_DB]
 GO
 /****** Objeto: Table [dbo].[AuditoriaTurnos] Fecha de script: 25/10/2026 02:52:44 ******/
@@ -112,6 +124,14 @@ CREATE TABLE [dbo].[Clinicas](
 	[Direccion] [varchar](100) NOT NULL,
 	[Telefono] [varchar](20) NOT NULL,
 	[EmailClinica] [varchar](100) NULL,
+
+--[Comentario Gabriela] comento para no considerarlo           [IDTurno] [bigint] NOT NULL,
+-- se elimina IDTurno de Clinicas porque la relación
+-- correcta se encuentra en Turnos mediante IDClinica.
+
+-- ALTER TABLE [dbo].[Clinicas] WITH CHECK ADD FOREIGN KEY([IDTurno])
+-- REFERENCES [dbo].[Turnos] ([IDTurno])
+-- GO	
 PRIMARY KEY CLUSTERED 
 (
 	[IDClinica] ASC
@@ -157,7 +177,7 @@ CREATE TABLE [dbo].[HorarioMedico](
 	[IDHorario] [int] IDENTITY(1,1) NOT NULL,
 	[IDMedico] [smallint] NOT NULL,
 	[IDClinica] [smallint] NOT NULL,
-	[DiaTurno] [date] NOT NULL,
+	[DiaSemana] [varchar](10) NOT NULL,
 	[HorarioInicio] [datetime] NULL,
 	[HorarioFin] [datetime] NULL,
 	[DuracionMin] [smallint] NULL,
@@ -191,6 +211,7 @@ GO
 CREATE TABLE [dbo].[Medicos](
 	[IDMedico] [smallint] IDENTITY(1,1) NOT NULL,
 	[IDEspecialidad] [smallint] NOT NULL,
+	[IDClinica] [smallint] NOT NULL,
 	[Nombre] [varchar](60) NOT NULL,
 	[Apellido] [varchar](60) NOT NULL,
 	[Matricula] [varchar](60) NOT NULL,
@@ -328,9 +349,9 @@ GO
 ALTER TABLE [dbo].[Clinicas]  WITH CHECK ADD FOREIGN KEY([IDLocalidad])
 REFERENCES [dbo].[Localidades] ([IDLocalidad])
 GO
-ALTER TABLE [dbo].[Turnos]  WITH CHECK ADD FOREIGN KEY([IDClinica])
-REFERENCES [dbo].[Clinicas] ([IDClinica])
-GO
+--ALTER TABLE [dbo].[Clinicas]  WITH CHECK ADD FOREIGN KEY([IDTurno])
+--REFERENCES [dbo].[Turnos] ([IDTurno])
+--GO
 ALTER TABLE [dbo].[HistorialMedico]  WITH CHECK ADD FOREIGN KEY([IDTurno])
 REFERENCES [dbo].[Turnos] ([IDTurno])
 GO
@@ -346,11 +367,17 @@ GO
 ALTER TABLE [dbo].[Medicos]  WITH CHECK ADD FOREIGN KEY([IDEspecialidad])
 REFERENCES [dbo].[Especialidades] ([IDEspecialidad])
 GO
+ALTER TABLE [dbo].[Medicos] WITH CHECK ADD FOREIGN KEY([IDClinica])
+REFERENCES [dbo].[Clinicas] ([IDClinica])
+GO
 ALTER TABLE [dbo].[Pacientes]  WITH CHECK ADD FOREIGN KEY([IDPlan])
 REFERENCES [dbo].[Planes] ([IDPlan])
 GO
 ALTER TABLE [dbo].[Planes]  WITH CHECK ADD FOREIGN KEY([IDObraSocial])
 REFERENCES [dbo].[ObraSociales] ([IDObraSocial])
+GO
+ALTER TABLE [dbo].[Turnos]  WITH CHECK ADD FOREIGN KEY([IDClinica])
+REFERENCES [dbo].[Clinicas] ([IDClinica])
 GO
 ALTER TABLE [dbo].[Turnos]  WITH CHECK ADD FOREIGN KEY([IDMedico])
 REFERENCES [dbo].[Medicos] ([IDMedico])
@@ -365,92 +392,65 @@ ALTER TABLE [dbo].[Usuarios]  WITH CHECK ADD FOREIGN KEY([IDRol])
 REFERENCES [dbo].[Roles] ([IDRol])
 GO
 
---	UNIQUE CONSTRAITS
+-- UNIQUE CONSTRAINTS
+
 -- Pacientes: DNI único
-ALTER TABLE [dbo].[Pacientes] ADD CONSTRAINT UQ_Pacientes_Dni UNIQUE ([Dni])
+ALTER TABLE [dbo].[Pacientes]
+ADD CONSTRAINT UQ_Pacientes_Dni UNIQUE ([Dni])
 GO
 
--- Medicos: Matrícula única
-ALTER TABLE [dbo].[Medicos] ADD CONSTRAINT UQ_Medicos_Matricula UNIQUE ([Matricula])
+-- Médicos: matrícula única
+ALTER TABLE [dbo].[Medicos]
+ADD CONSTRAINT UQ_Medicos_Matricula UNIQUE ([Matricula])
 GO
 
--- Usuarios: NombreUsuario y Email únicos
-ALTER TABLE [dbo].[Usuarios] ADD CONSTRAINT UQ_Usuarios_NombreUsuario UNIQUE ([NombreUsuario])
-GO
-ALTER TABLE [dbo].[Usuarios] ADD CONSTRAINT UQ_Usuarios_Email UNIQUE ([Email])
-GO
-
--- No se repiten los nombres de especialidades, OS, provinciaas y roles
-ALTER TABLE [dbo].[Especialidades] ADD CONSTRAINT UQ_Especialidades_Nombre UNIQUE ([NombreEspecialidad])
-GO
-ALTER TABLE [dbo].[ObraSociales]  ADD CONSTRAINT UQ_ObraSociales_Nombre UNIQUE ([NombreObraSocial])
-GO
-ALTER TABLE [dbo].[Provincias]    ADD CONSTRAINT UQ_Provincias_Nombre UNIQUE ([NombreProvincia])
-GO
-ALTER TABLE [dbo].[Roles]         ADD CONSTRAINT UQ_Roles_Nombre UNIQUE ([NombreRol])
+-- Usuarios: nombre de usuario y email únicos
+ALTER TABLE [dbo].[Usuarios]
+ADD CONSTRAINT UQ_Usuarios_NombreUsuario UNIQUE ([NombreUsuario])
 GO
 
--- Localidades: combinación provincia + CP + nombre única
-ALTER TABLE [dbo].[Localidades] ADD CONSTRAINT UQ_Localidades_Prov_CP_Nombre
+ALTER TABLE [dbo].[Usuarios]
+ADD CONSTRAINT UQ_Usuarios_Email UNIQUE ([Email])
+GO
+
+-- No se repiten nombres de especialidades, obras sociales, provincias ni roles
+ALTER TABLE [dbo].[Especialidades]
+ADD CONSTRAINT UQ_Especialidades_Nombre UNIQUE ([NombreEspecialidad])
+GO
+
+ALTER TABLE [dbo].[ObraSociales]
+ADD CONSTRAINT UQ_ObraSociales_Nombre UNIQUE ([NombreObraSocial])
+GO
+
+ALTER TABLE [dbo].[Provincias]
+ADD CONSTRAINT UQ_Provincias_Nombre UNIQUE ([NombreProvincia])
+GO
+
+ALTER TABLE [dbo].[Roles]
+ADD CONSTRAINT UQ_Roles_Nombre UNIQUE ([NombreRol])
+GO
+
+-- Localidades: combinación de provincia, código postal y nombre única
+ALTER TABLE [dbo].[Localidades]
+ADD CONSTRAINT UQ_Localidades_Prov_CP_Nombre
 UNIQUE ([IDProvincia], [CodigoPostal], [NombreLocalidad])
 GO
 
--- CKECK CONSTRAITS
-
--- Turnos: EstadoTurno válido
-ALTER TABLE [dbo].[Turnos] ADD CONSTRAINT CK_Turnos_EstadoTurno
-CHECK ([EstadoTurno] IN ('Pendiente','Confirmado','Cancelado','Atendido','Ausente'))
-GO
-
--- Turnos: Copago no negativo
-ALTER TABLE [dbo].[Turnos] ADD CONSTRAINT CK_Turnos_Copago
-CHECK ([Copago] IS NULL OR [Copago] >= 0)
-GO
-
--- Planes: Precio no negativo
-ALTER TABLE [dbo].[Planes] ADD CONSTRAINT CK_Planes_Precio
-CHECK ([Precio] IS NULL OR [Precio] >= 0)
-GO
-
--- HorarioMedico: rango horario válido y duración positiva
-ALTER TABLE [dbo].[HorarioMedico] ADD CONSTRAINT CK_HorarioMedico_Rango
-CHECK (
-    ([HorarioInicio] IS NULL OR [HorarioFin] IS NULL OR [HorarioFin] > [HorarioInicio])
-    AND ([DuracionMin] IS NULL OR [DuracionMin] > 0)
-)
-GO
-
--- Pacientes: FechaNacimiento no futura
-ALTER TABLE [dbo].[Pacientes] ADD CONSTRAINT CK_Pacientes_FechaNacimiento
-CHECK ([FechaNacimiento] <= CAST(GETDATE() AS date))
-GO
-
--- Medicos: FechaAlta no futura
-ALTER TABLE [dbo].[Medicos] ADD CONSTRAINT CK_Medicos_FechaAlta
-CHECK ([FechaAlta] <= CAST(GETDATE() AS date))
-GO
-
--- Email: validacion de formato
-ALTER TABLE [dbo].[Medicos] ADD CONSTRAINT CK_Medicos_Email
-CHECK ([Email] LIKE '%_@_%._%')
-GO
-
--- Clinicas.EmailClinica 
-ALTER TABLE [dbo].[Clinicas] ADD CONSTRAINT CK_Clinicas_Email
-CHECK ([EmailClinica] LIKE '%_@_%._%')
-GO
-
--- Pacientes.Mail 
-ALTER TABLE [dbo].[Pacientes] ADD CONSTRAINT CK_Pacientes_Mail
-CHECK ([Mail] LIKE '%_@_%._%')
-GO
-
--- Usuarios.Email 
-ALTER TABLE [dbo].[Usuarios] ADD CONSTRAINT CK_Usuarios_Email_Formato
-CHECK ([Email] LIKE '%_@_%._%')
+-- HorarioMedico: día de semana válido
+ALTER TABLE [dbo].[HorarioMedico]
+ADD CONSTRAINT CK_HorarioMedico_DiaSemana
+CHECK ([DiaSemana] IN (
+    'Lunes',
+    'Martes',
+    'Miercoles',
+    'Jueves',
+    'Viernes',
+    'Sabado',
+    'Domingo'
+))
 GO
 
 USE [master]
 GO
-ALTER DATABASE [CLINICAMEDICA_DB] SET  READ_WRITE
+ALTER DATABASE [CLINICAMEDICA_DB] SET  READ_WRITE 
 GO
