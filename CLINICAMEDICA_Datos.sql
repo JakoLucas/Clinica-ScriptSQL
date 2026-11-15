@@ -168,12 +168,12 @@ VALUES
 INSERT INTO HorarioMedico (IDMedico, IDClinica, DiaSemana, HorarioInicio, HorarioFin, DuracionMin)
 VALUES
 
-    (1, 1, 'Lunes', '2026-10-05 08:00', '2026-10-05 12:00', 30),
+    (2, 1, 'Lunes', '2026-10-05 08:00', '2026-10-05 12:00', 30),
     (2, 2, 'Martes', '2026-10-08 14:00', '2026-10-08 18:00', 30),
     (3, 3, 'Miercoles', '2026-10-14 09:00', '2026-10-14 13:00', 30),
     (4, 4, 'Jueves', '2026-10-20 08:00', '2026-10-20 12:00', 30),
     (5, 5, 'Viernes', '2026-10-27 15:00', '2026-10-27 19:00', 30),
-    (1, 1, 'Viernes', '2026-11-02 08:00', '2026-11-02 12:00', 30),
+    (8, 1, 'Viernes', '2026-11-02 08:00', '2026-11-02 12:00', 30),
     (6, 6, 'Viernes', '2026-11-05 10:00', '2026-11-05 14:00', 30),
     (7, 7, 'Jueves', '2026-11-10 14:00', '2026-11-10 18:00', 30),
     (8, 8, 'Miercoles', '2026-11-16 08:30', '2026-11-16 12:30', 30),
@@ -184,7 +184,7 @@ VALUES
     (6, 6, 'Lunes', '2026-12-16 10:00', '2026-12-16 14:00', 30),
     (7, 7, 'Lunes', '2026-12-21 14:00', '2026-12-21 18:00', 30),
     (3, 3, 'Lunes', '2026-10-12 09:00', '2026-10-12 13:00', 30),
-    (1, 1, 'Jueves', '2026-09-01 08:00', '2026-09-01 12:00', 30),
+    (2, 1, 'Jueves', '2026-09-01 08:00', '2026-09-01 12:00', 30),
     (6, 6, 'Jueves', '2026-09-03 10:00', '2026-09-03 14:00', 30),
     (7, 7, 'Viernes', '2026-09-08 14:00', '2026-09-08 18:00', 30),
     (8, 8, 'Viernes', '2026-09-10 08:30', '2026-09-10 12:30', 30),
@@ -202,12 +202,12 @@ VALUES
 
 INSERT INTO Turnos (IDClinica, IDPaciente, IDMedico, IDUsuario, EstadoTurno, Copago, FechaTurno, HoraTurno)
 VALUES
-    (1, 1, 1, 4, 'Atendido', 500, '2026-10-05', '08:00'),
+    (1, 1, 2, 4, 'Atendido', 500, '2026-10-05', '08:00'),
     (2, 2, 2, 4, 'Atendido', 700, '2026-10-08', '14:00'),
     (3, 3, 3, 4, 'Cancelado', 0, '2026-10-14', '09:00'),
     (4, 4, 4, 4, 'Atendido', 600, '2026-10-20', '08:00'),
     (5, 5, 5, 4, 'Atendido', 800, '2026-10-27', '15:00'),
-    (1, 6, 1, 4, 'Pendiente', 500, '2026-11-02', '08:00'),
+    (1, 6, 2, 4, 'Pendiente', 500, '2026-11-02', '08:00'),
     (6, 7, 6, 4, 'Confirmado', 900, '2026-11-05', '10:00'),
     (7, 8, 7, 4, 'Pendiente', 1000, '2026-11-10', '14:00'),
     (8, 9, 8, 4, 'Confirmado', 1100, '2026-11-16', '08:30'),
@@ -218,7 +218,7 @@ VALUES
     (6, 14, 6, 4, 'Pendiente', 1000, '2026-12-16', '10:00'),
     (7, 15, 7, 4, 'Confirmado', 1100, '2026-12-21', '14:00'),
     (3, 16, 3, 4, 'Atendido', 700, '2026-10-12', '09:00'),
-    (1, 6, 1, 4, 'Atendido', 500, '2026-09-01', '08:30'),
+    (1, 6, 2, 4, 'Atendido', 500, '2026-09-01', '08:30'),
     (6, 7, 6, 4, 'Atendido', 900, '2026-09-03', '10:30'),
     (7, 8, 7, 4, 'Atendido', 1000, '2026-09-08', '14:30'),
     (8, 9, 8, 4, 'Atendido', 1100, '2026-09-10', '09:00'),
@@ -237,6 +237,24 @@ VALUES
     (16, 'Fractura de brazo', 'Inmovilización y fisioterapia'),
     (4, 'Control oftalmológico anual','Examen de la vista y lentes correctivos'),
     (5, 'Revisión de medicación gastrointestinal','Ajuste de medicación y seguimiento'),
+    (17, 'Alergia estacional','Antihistamínicos y evitar alérgenos'),
+    (18, 'Tos crónica','Exámenes respiratorios y tratamiento según resultados'),
+    (19, 'Aptitud física','Evaluación cardiológica y recomendaciones de ejercicio'),
+    (20, 'Artritis reumatoide','Tratamiento con antiinflamatorios y fisioterapia'),
+    (21, 'Hipertensión','Control de presión arterial y dieta'),
+    (22, 'Dolor articular','Fisioterapia y medicación'),
+    (23, 'Conjuntivitis','Tratamiento con colirios y seguimiento'),
+    (24, 'Acidez estomacal','Dieta y medicación'),
+    (25, 'Principio de neumonía','Antibióticos y reposo'),
+    (26, 'Arritmia cardíaca','Control con medicación y seguimiento');
+
+INSERT INTO HistorialMedico (IDTurno, Diagnostico, Tratamiento)
+VALUES
+    (4, 'Gripe', 'Reposo y medicación'),
+    (5, 'Hipertensión', 'Control de presión arterial y dieta'),
+    (16, 'Fractura de brazo', 'Inmovilización y fisioterapia'),
+    (6, 'Control oftalmológico anual','Examen de la vista y lentes correctivos'),
+    (7, 'Revisión de medicación gastrointestinal','Ajuste de medicación y seguimiento'),
     (17, 'Alergia estacional','Antihistamínicos y evitar alérgenos'),
     (18, 'Tos crónica','Exámenes respiratorios y tratamiento según resultados'),
     (19, 'Aptitud física','Evaluación cardiológica y recomendaciones de ejercicio'),
