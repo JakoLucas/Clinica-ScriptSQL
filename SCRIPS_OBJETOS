@@ -1,0 +1,166 @@
+USE CLINICAMEDICA_DB
+GO
+CREATE OR ALTER PROCEDURE SP_AgregarTurnos
+    @IDClinica SMALLINT,
+    @IDPaciente SMALLINT,
+    @IDMedico SMALLINT,
+    @IDUsuario SMALLINT,
+    @FechaTurno DATE,
+    @HoraTurno TIME
+AS
+BEGIN
+
+    DECLARE @PrecioPlan DECIMAL(10,2);
+    DECLARE @Copago DECIMAL(10,2);
+    DECLARE @EstadoTurno VARCHAR(20);
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Pacientes
+        WHERE IDPaciente = @IDPaciente
+    )
+    BEGIN
+        RAISERROR ('El paciente no existe.', 16,1);
+        RETURN;
+    END;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Medicos
+        WHERE IDMedico = @IDMedico
+          AND IDClinica = @IDClinica
+    )
+    BEGIN
+        RAISERROR ('El medico no pertenece a la clinica seleccionada.', 16,1);
+        RETURN;
+    END;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Usuarios
+        WHERE IDUsuario = @IDUsuario
+    )
+    BEGIN
+        RAISERROR ('El usuario no existe.', 16,1);
+        RETURN;
+    END;
+
+    SELECT @PrecioPlan = P.Precio
+    FROM Pacientes PA
+    INNER JOIN Planes P ON PA.IDPlan = P.IDPlan
+    WHERE PA.IDPaciente = @IDPaciente;
+
+    IF @PrecioPlan IS NULL OR @PrecioPlan = 0
+    BEGIN
+    RAISERROR ('El paciente no tiene plan.', 16,1);
+    RETURN;
+    END;
+    IF @PrecioPlan < 20000
+    BEGIN
+        SET @Copago = 5000;
+        SET @EstadoTurno = 'Pendiente';
+    END
+    ELSE
+    BEGIN
+        SET @Copago = 0;
+        SET @EstadoTurno = 'Confirmado';
+    END;
+
+    ---------------------------------------------------Registrar el turno
+
+    INSERT INTO Turnos(IDClinica,IDPaciente,IDMedico,IDUsuario, EstadoTurno,Copago,FechaTurno,HoraTurno)
+    VALUES(@IDClinica,@IDPaciente,@IDMedico,@IDUsuario,@EstadoTurno,@Copago,@FechaTurno,@HoraTurno);
+
+    IF @EstadoTurno = 'Pendiente'
+BEGIN
+    PRINT 'Turno registrado correctamente.';
+    PRINT 'ATENCION: El turno queda pendiente de pago.';
+    PRINT 'Copago a abonar: $' + CAST(@Copago AS VARCHAR(20));
+END
+ELSE
+BEGIN
+    PRINT 'Turno registrado correctamente.';
+    PRINT 'El turno queda confirmado. No requiere copago.';
+    END
+END;
+
+-----**************************************************************************
+
+CREATE OR ALTER PROCEDURE SP_FinalizarAtencion
+    @TurnoId SMALLINT,
+    @Diagnostico VARCHAR(MAX),
+    @Tratamiento VARCHAR(MAX)
+AS
+BEGIN
+
+    BEGIN TRANSACTION;
+
+    BEGIN TRY
+        DECLARE @EstadoActual VARCHAR(50);
+        SELECT @EstadoActual = t.EstadoTurno 
+        FROM Turnos t
+        WHERE t.IDTurno = @TurnoId;
+
+        ------------------------- Verificar si el turno existe
+        IF @EstadoActual IS NULL
+        BEGIN
+            RAISERROR('El turno especificado no existe.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        --------------------- Verificar si el turno está confirmado
+        IF @EstadoActual <> 'Confirmado'
+        BEGIN
+            RAISERROR('El turno no se encuentra en estado Confirmado y no puede ser finalizado.', 16, 1);
+            ROLLBACK TRANSACTION;
+            RETURN;
+        END
+
+        ---------- Registrar el diagnóstico y tratamiento
+        INSERT INTO HistorialMedico (IDTurno,Diagnostico,Tratamiento)
+        VALUES (@TurnoId, @Diagnostico, @Tratamiento);
+
+        --------------- Actualizar el estado del turno
+        UPDATE Turnos
+        SET EstadoTurno = 'Atendido'
+        WHERE IDTurno = @TurnoId;
+
+        COMMIT TRANSACTION;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+
+        DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+        DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+        DECLARE @ErrorState INT = ERROR_STATE();
+
+        RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+    END CATCH
+END;
+
+-----------**********************************************************************
+
+CREATE OR ALTER  VIEW VW_TurnosSolicitados as
+select
+ C.NombreClinica COLLATE Latin1_General_100_CI_AI AS Clinica,
+CONCAT(M.Nombre, ' ', M.Apellido) AS Medico,
+E.NombreEspecialidad as Especialidad,
+COUNT(T.IDTurno) as CantTurno,
+T.FechaTurno as Fecha,
+T.EstadoTurno as Estado
+ from Turnos T
+inner join  Medicos M
+on T.IDMedico=M.IDMedico
+inner join Especialidades E
+on M.IDEspecialidad=E.IDEspecialidad
+inner join Clinicas C
+on M.IDClinica=C.IDClinica   
+
+GROUP BY 
+ M.Nombre, M.Apellido,
+E.NombreEspecialidad,
+C.NombreClinica,
+T.FechaTurno,
+T.EstadoTurno;
